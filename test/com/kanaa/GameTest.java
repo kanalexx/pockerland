@@ -14,8 +14,8 @@ public class GameTest {
   }
 
   @Test
-  public void initTest() throws Exception {
-    game.init();
+  public void startTest() throws Exception {
+    game.start();
     assertFalse(game.isStoped());
   }
 }

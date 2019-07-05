@@ -6,7 +6,7 @@ public class Game {
   private static  Logger log = Logger.getLogger(Game.class);
   private boolean isStoped = true;
 
-  public void init() {
+  public void start() {
     isStoped = false;
     log.info("Игра запущена.");
   }
@@ -15,7 +15,7 @@ public class Game {
     return isStoped;
   }
 
-  public void stop {
+  public void stop() {
     isStoped = true;
     log.info("Игра остановлена.");
   }

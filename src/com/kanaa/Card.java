@@ -1,6 +1,6 @@
 package com.kanaa;
 
-public class Card {
+public class Card implements SimpleCard {
   private Rating rating;
   private Suit suit;
 

@@ -1,22 +1,12 @@
 package com.kanaa;
 
-public class Hand {
-  private Card[] cards = new Card[2];
+public class Hand extends SimpleHand<Card> {
 
-  public Hand addCard(Card card) {
-    if (cards[0] != null) {
-      cards[0] = card;
-    } else {
-      cards[1] = card;
-    }
-    return this;
+  /** В покере в руке игрока две карты */
+  private static final int HAND_SIZE = 2;
+
+  public Hand() {
+    super(HAND_SIZE);
   }
 
-  public Card[] getCards() {
-    return cards;
-  }
-
-  public Card getCard(int index) {
-    return cards[index];
-  }
 }

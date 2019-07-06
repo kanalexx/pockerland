@@ -4,8 +4,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-public class GameTest {
+public class GameTest extends MyTest {
   private Game game;
 
   @Before
@@ -14,8 +15,11 @@ public class GameTest {
   }
 
   @Test
-  public void startTest() throws Exception {
+  public void startAndStopTest() throws Exception {
     game.start();
     assertFalse(game.isStoped());
+    //
+    game.stop();
+    assertTrue(game.isStoped());
   }
 }

@@ -1,6 +1,5 @@
 package com.kanaa;
 
-import java.util.Iterator;
 import java.util.List;
 
 public class Deck extends SimpleDeck <Card>  {
@@ -8,9 +7,8 @@ public class Deck extends SimpleDeck <Card>  {
   /** Размер колоды */
   private static final int deckSize = 52;
 
-  @Override
-  public int getSize() {
-    return deckSize;
+  public Deck() {
+    super(deckSize);
   }
 
   @Override

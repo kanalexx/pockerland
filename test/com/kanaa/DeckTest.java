@@ -19,9 +19,10 @@ public class DeckTest {
     deck = new Deck();
   }
 
+  /** В колоде покера 52 карты */
   @Test
   public void deckSizeTest() throws Exception {
-    assertEquals(52, deck.getLeftCount());
+    assertEquals(52, deck.getSize());
   }
 
   @Test

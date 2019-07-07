@@ -1,7 +1,5 @@
 package com.kanaa;
 
-import com.sun.istack.internal.Nullable;
-
 import java.util.*;
 
 /**
@@ -14,18 +12,28 @@ public class CardCollection <T extends SimpleCard> implements Iterable<T> {
   /** Коллекция карт */
   private final ArrayList<T> cards;
 
-  private final int size;
+  private final int capacity;
 
-  public CardCollection(int size) {
-    this.size = size;
-    cards = new ArrayList<>(size);
+  public CardCollection(int capacity) {
+    this.capacity = capacity;
+    cards = new ArrayList<>(capacity);
+  }
+
+  /**
+   * Конструктор с предустановленным набором карт
+   */
+  @SafeVarargs
+  public CardCollection(T... cardList) {
+    this.capacity = cardList.length;
+    cards = new ArrayList<>(capacity);
+    addCardList(cardList);
   }
 
   /**
    * Размер. Максимальное количество карт. Вместимость.
    */
-  public int getSize() {
-    return size;
+  public int getCapacity() {
+    return capacity;
   }
 
   @Override
@@ -38,6 +46,16 @@ public class CardCollection <T extends SimpleCard> implements Iterable<T> {
    */
   public void addCard(T card) {
     cards.add(card);
+  }
+
+  /**
+   * Добавить список карт в коллекцию
+   */
+  @SafeVarargs
+  public final void addCardList(T... cardList) {
+    for (T card : cardList) {
+      addCard(card);
+    }
   }
 
   /**
@@ -57,10 +75,9 @@ public class CardCollection <T extends SimpleCard> implements Iterable<T> {
   /**
    * Возвращает следующую карту с конца из коллекции, и удаляет ее из коллекции
    */
-  @Nullable
   public T getNext() {
     if (!cards.isEmpty()) {
-      return cards.remove(getLeftCount() - 1);
+      return cards.remove(getSize() - 1);
     }
     return null;
   }
@@ -75,7 +92,7 @@ public class CardCollection <T extends SimpleCard> implements Iterable<T> {
   /**
    * Возвращает оставшееся количество карт в коллекции.
    */
-  public int getLeftCount() {
+  public int getSize() {
     return cards.size();
   }
 
@@ -83,7 +100,7 @@ public class CardCollection <T extends SimpleCard> implements Iterable<T> {
    * Возвращает оставщееся количество указанных карт.
    * @param card карта
    */
-  public int getLeftCount(T card) {
+  public int getCount(T card) {
     int result = 0;
     for(Object entry : this) {
       if (entry.equals(card)) result++;
@@ -95,7 +112,6 @@ public class CardCollection <T extends SimpleCard> implements Iterable<T> {
    * Найти указанную карту в коллекции
    * @return найденная карта, null - если карта не нашлась
    */
-  @Nullable
   public T find(T card) {
     int idx = cards.indexOf(card);
     return idx >= 0 ? cards.get(idx) : null;
@@ -117,8 +133,9 @@ public class CardCollection <T extends SimpleCard> implements Iterable<T> {
    * Изымает набор карт из коллекции.
    * @param cardList список карт к изятию
    */
-  public void pullCards(List<T> cardList) {
-    if (!cards.removeAll(cardList))
-      throw new IllegalArgumentException("Одна или несолько карт не найдены.");
+  public void pullCards(CardCollection<T> cardList) {
+    for (T card : cardList) {
+      pull(card);
+    }
   }
 }

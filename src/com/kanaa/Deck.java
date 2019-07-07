@@ -1,7 +1,5 @@
 package com.kanaa;
 
-import java.util.List;
-
 public class Deck extends SimpleDeck <Card>  {
 
   /** Размер колоды */
@@ -39,7 +37,7 @@ public class Deck extends SimpleDeck <Card>  {
    * @return Возвращает шанс вытащить из колоды указанную карту.
    */
   public double getChance(Card card) {
-    return Utils.roundTo((double) getLeftCount(card) / getLeftCount() * 100);
+    return Utils.roundTo((double) getCount(card) / getSize() * 100);
   }
 
   /**
@@ -48,7 +46,7 @@ public class Deck extends SimpleDeck <Card>  {
    * @param card карта, для которой находтся вероятность
    * @return Возвращает вероятность вытащить указанную карты из колоды, если в ней не будет указнного набора карт.
    */
-  public double getChanceAfterPull(List<Card> cardList, Card card) {
+  public double getChanceAfterPull(CardCollection<Card> cardList, Card card) {
     pullCards(cardList);
     return getChance(card);
   }
@@ -58,20 +56,20 @@ public class Deck extends SimpleDeck <Card>  {
    * @param cardList набор карт
    * @return возвращает вероятность вытянуть последовательно набор карт
    */
-  public double getChanceCards(List<Card> cardList) {
+  public double getChanceCards(CardCollection<Card> cardList) {
     double chance = 0;
-    for (int i = 0; i < cardList.size(); i++) {
-      Card card = cardList.get(i);
-      int leftCount = getLeftCount(card);
-      for (int j = i; j < cardList.size(); j++) {
-        if (!card.equals(cardList.get(j))) {
-          leftCount += getLeftCount(cardList.get(j));
+    for (int i = 0; i < cardList.getSize(); i++) {
+      Card card = cardList.getCard(i);
+      int leftCount = getCount(card);
+      for (int j = i; j < cardList.getSize(); j++) {
+        if (!card.equals(cardList.getCard(j))) {
+          leftCount += getCount(cardList.getCard(j));
         }
       }
       if (i == 0)
-        chance = (double) leftCount / getLeftCount();
+        chance = (double) leftCount / getSize();
       else
-        chance *= (double) leftCount / getLeftCount();
+        chance *= (double) leftCount / getSize();
       pull(card);
     }
     return Utils.roundTo(chance*100);

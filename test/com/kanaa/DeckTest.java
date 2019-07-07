@@ -7,9 +7,6 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.List;
-
 public class DeckTest {
 
   private Deck deck;
@@ -22,7 +19,7 @@ public class DeckTest {
   /** В колоде покера 52 карты */
   @Test
   public void deckSizeTest() throws Exception {
-    assertEquals(52, deck.getSize());
+    assertEquals(52, deck.getCapacity());
   }
 
   @Test
@@ -56,14 +53,14 @@ public class DeckTest {
   @Test
   public void getLeftCountSuitTest() throws Exception {
     for(Suit suit: Suit.getValues()) {
-      assertEquals(13, deck.getLeftCount(Card.get(Rating.ANY, suit)));
+      assertEquals(13, deck.getCount(Card.get(Rating.ANY, suit)));
     }
   }
 
   @Test
   public void getLeftCountRatingTest() throws Exception {
     for(Rating rating: Rating.getValues()) {
-      assertEquals(4, deck.getLeftCount(Card.get(rating, Suit.ANY)));
+      assertEquals(4, deck.getCount(Card.get(rating, Suit.ANY)));
     }
   }
 
@@ -98,12 +95,12 @@ public class DeckTest {
   public void pullTest() throws Exception {
     Card card = Card.get(ACE, Suit.SPADES);
     assertTrue(deck.pull(card));
-    assertEquals(0, deck.getLeftCount(card));
+    assertEquals(0, deck.getCount(card));
   }
 
   @Test
   public void pullCardsTest() throws Exception {
-    List<Card> cardList = Arrays.asList(
+    CardCollection<Card> cardList = new CardCollection<>(
         Card.get(ACE, CLUBS),
         Card.get(KING, CLUBS),
         Card.get(QUEEN, CLUBS),
@@ -112,13 +109,13 @@ public class DeckTest {
         Card.get(FIVE, DIAMONDS)
     );
     deck.pullCards(cardList);
-    assertEquals(46,deck.getLeftCount());
+    assertEquals(46,deck.getSize());
     assertNull(deck.find(Card.get(ACE, Suit.CLUBS)));
   }
 
   @Test
   public void getChanceAfterPullTest() throws Exception {
-    List<Card> cardList = Arrays.asList(
+    CardCollection<Card> cardList = new CardCollection<>(
         Card.get(ACE, CLUBS),
         Card.get(KING, CLUBS),
         Card.get(QUEEN, CLUBS),
@@ -131,7 +128,7 @@ public class DeckTest {
 
   @Test
   public void getChanceCardsTest() throws Exception {
-    List<Card> cardList = Arrays.asList(
+    CardCollection<Card> cardList = new CardCollection<>(
         Card.get(ACE, Suit.ANY),
         Card.get(ACE, Suit.ANY)
     );
@@ -140,7 +137,7 @@ public class DeckTest {
 
   @Test
   public void getChanceCards2Test() throws Exception {
-    List<Card> cardList = Arrays.asList(
+    CardCollection<Card> cardList = new CardCollection<>(
         Card.get(ACE, Suit.ANY),
         Card.get(KING, Suit.ANY)
     );
@@ -149,7 +146,7 @@ public class DeckTest {
 
   @Test
   public void getChanceCards3Test() throws Exception {
-    List<Card> cardList = Arrays.asList(
+    CardCollection<Card> cardList = new CardCollection<>(
         Card.get(ACE, Suit.ANY),
         Card.get(KING, Suit.ANY),
         Card.get(ACE, Suit.ANY)
@@ -159,7 +156,7 @@ public class DeckTest {
 
   @Test
   public void getChanceCardsAfterPullTest() throws Exception {
-    List<Card> pullCardList = Arrays.asList(
+    CardCollection<Card> pullCardList = new CardCollection<>(
         Card.get(ACE, CLUBS),
         Card.get(KING, CLUBS),
         Card.get(QUEEN, CLUBS),
@@ -167,7 +164,7 @@ public class DeckTest {
         Card.get(TWO, HEARTS)
     );
     deck.pullCards(pullCardList);
-    List<Card> cardList = Arrays.asList(
+    CardCollection<Card> cardList = new CardCollection<>(
         Card.get(Rating.ANY, CLUBS),
         Card.get(Rating.ANY, CLUBS)
     );

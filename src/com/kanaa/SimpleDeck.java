@@ -24,11 +24,11 @@ public abstract class SimpleDeck<T extends SimpleCard> extends CardCollection<T>
    */
   public void shuffle() {
     Random generator = new Random(new Date().getTime());
-    for(int i = 0; i < getLeftCount(); i++) {
-      int newPos = generator.nextInt(getLeftCount());
+    for(int i = 0; i < getSize(); i++) {
+      int newPos = generator.nextInt(getSize());
       T tmpCard = setCard(newPos, getCard(i));
       setCard(i, tmpCard);
-      if(i%(getLeftCount() /4) == 0) {
+      if(i%(getSize() /4) == 0) {
         int pause = generator.nextInt(20);
         try {
           Thread.sleep(pause);
